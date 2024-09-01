@@ -1,0 +1,74 @@
+post:
+  description: Create a new short URL
+  parameters:
+    - in: body
+      name: body
+      required: True
+      schema:
+        $ref: "#/definitions/ShortenApiRequestDTO"
+responses:
+  "200":
+    description: Successful operation
+    schema:
+      $ref: "#/definitions/ShortenApiResponseDTO"
+  "400":
+    description: Bad request - Invalid or missing parameters
+    schema:
+      $ref: "#/definitions/UrlTooLongResponseDTO"
+  "429":
+    description: Too many requests
+    schema:
+      $ref: "#/definitions/TooManyRequestsResponseDTO"
+  "500":
+    description: Internal server error
+    schema:
+      $ref: "#/definitions/InternalServerErrorResponseDTO"
+
+definitions:
+  ShortenApiRequestDTO:
+    type: object
+    properties:
+      original_url:
+        type: string
+        maxLength: 2048
+        example: "https://example.com"
+  ShortenApiResponseDTO:
+    type: object
+    properties:
+      short_url:
+        type: string
+        example: "http://localhost:5000/abc123"
+      expiration_date:
+        type: string
+        format: date-time
+        example: "2024-09-01T00:00:00Z"
+      success:
+        type: boolean
+        example: true
+  UrlTooLongResponseDTO:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: false
+      reason:
+        type: string
+        example: "Url too long, max length is 2048"
+  TooManyRequestsResponseDTO:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: false
+      reason:
+        type: string
+        example: "Too many requests, try again later"
+  InternalServerErrorResponseDTO:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: false
+      reason:
+        type: string
+        example: "Internal server error"
