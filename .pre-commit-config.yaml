@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: pylint
+        name: pylint
+        entry: ./venv/bin/pylint
+        language: system
+        types: [python]
+        args: [--ignore-patterns=venv, "-rn", "-sn", "--rcfile=.pylintrc"]
