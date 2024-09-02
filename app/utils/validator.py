@@ -7,7 +7,7 @@ from pydantic import ValidationError
 
 from app.dto.response.error_response_dto import ErrorResponseDTO
 
-def validate_request(dto_class):
+def validate_request_body(dto_class):
     """
     Decorator that validates the incoming JSON request body against a specified Pydantic DTO class.
 
@@ -18,7 +18,7 @@ def validate_request(dto_class):
         Function: A wrapper function that performs validation before passing control to the original function.
 
     Usage:
-        @validate_request(MyDTOClass)
+        @validate_request_body(MyDTOClass)
         def my_route_handler(dto):
             # Your endpoint logic here, using the validated `dto`
     """

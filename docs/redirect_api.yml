@@ -1,7 +1,7 @@
 get:
   description: Create a new short URL
   parameters:
-    - name: short_url
+    - name: short_url_code
       in: path
       type: string
       required: true
