@@ -18,3 +18,13 @@ class ShortenUrlService:
         UrlShortenerOrchestrator.get_or_create_short_url(url)
 
         return url
+
+    @staticmethod
+    def get_original_url(short_url: str) -> str:
+        """
+        Get the original URL from the short URL.
+
+        :param short_url: The short URL.
+        :return: The original URL.
+        """
+        return UrlShortenerOrchestrator.get_original_url(short_url)

@@ -3,8 +3,12 @@ A constant file that contains the HTTP
 """
 from enum import Enum
 
-POST = 'POST'
-GET = 'GET'
+class HttpMethods(Enum) :
+    """
+    Class to represent HTTP methods.
+    """
+    POST = 'POST'
+    GET = 'GET'
 
 class HttpStatusCode(Enum) :
     """

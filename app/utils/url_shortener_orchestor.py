@@ -15,6 +15,19 @@ class UrlShortenerOrchestrator:
     """
 
     @staticmethod
+    def get_original_url(short_url: str) -> str | None:
+        """
+        Get the original URL from the short URL.
+        """
+
+        original_url = UrlCache.get_original_url(short_url)
+        if original_url:
+            print(f"Original URL {original_url} found in cache.")
+            return original_url.decode()
+
+        return None
+
+    @staticmethod
     def get_or_create_short_url(url_mapping: UrlMapping) -> str:
         """
         Get or create a short URL for the given URL mapping, and store it in Redis.

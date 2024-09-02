@@ -30,6 +30,11 @@ class UrlCache:
         return redis_client.get(ORIGIN_URL_PREFIX + original_url)
 
     @staticmethod
+    def get_original_url(short_url: str) -> str:
+        """ Get the original URL from Redis. """
+        return redis_client.get(SHORT_URL_PREFIX + short_url[-ShortUrlGenerator.SHORT_URL_LENGTH:])
+
+    @staticmethod
     def url_exists(short_url: str) -> bool:
         """ Check if the short URL exists in Redis. """
-        return redis_client.exists(SHORT_URL_PREFIX + short_url)
+        return redis_client.exists(SHORT_URL_PREFIX + short_url[-ShortUrlGenerator.SHORT_URL_LENGTH:])
