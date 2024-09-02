@@ -16,8 +16,9 @@ from app.type.http import HttpStatusCode
 from app.utils.limiter import limiter
 
 load_dotenv()
+docs_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'docs'))
 
-@swag_from('../../docs/shorten_api.yml')
+@swag_from(os.path.join(docs_dir, 'shorten_api.yml'))
 @validate_request(ShortenApiRequestDTO)
 @limiter.limit("10 per minute")
 def shorten_url(request_dto: ShortenApiRequestDTO) -> TypedResponse[ShortenApiResponseDTO]:
@@ -34,8 +35,8 @@ def shorten_url(request_dto: ShortenApiRequestDTO) -> TypedResponse[ShortenApiRe
 
     return jsonify(response_dto.to_dict())
 
-@swag_from('../../docs/redirect_api.yml')
-@limiter.limit("1 per seconds")
+@swag_from(os.path.join(docs_dir, 'redirect_api.yml'))
+@limiter.limit("1 per second")
 def redirect_url(short_url: str) -> Response:
     """
     Presentational layer for the URL redirecting API.
