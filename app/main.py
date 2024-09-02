@@ -33,7 +33,7 @@ def internal_server_error(error):
     error = ErrorResponseDTO('Internal server error')
     return jsonify(error.to_dict()), HttpStatusCode.INTERNAL_SERVER_ERROR.value
 
-def create_app():
+def create_app() -> Flask:
     """
     Function to create the Flask app, and add all components to it.
     """
@@ -49,4 +49,6 @@ def create_app():
 
     return app
 
-main_app = create_app()
+if __name__ == '__main__':
+    main_app = create_app()
+    main_app.run()
