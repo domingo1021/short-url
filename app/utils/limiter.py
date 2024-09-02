@@ -8,6 +8,5 @@ from app.utils.redis_client import REDIS_HOST, REDIS_PORT
 
 limiter = Limiter(
     key_func=get_remote_address,
-    default_limits=["200 per day", "50 per hour"],
     storage_uri=f"redis://{REDIS_HOST}:{REDIS_PORT}"
 )
