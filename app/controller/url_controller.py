@@ -13,11 +13,13 @@ from app.utils.validator import validate_request
 from app.services.shorten_url_service import ShortenUrlService
 from app.dto.response.error_response_dto import ErrorResponseDTO
 from app.type.http import HttpStatusCode
+from app.utils.limiter import limiter
 
 load_dotenv()
 
 @swag_from('../../docs/shorten_api.yml')
 @validate_request(ShortenApiRequestDTO)
+@limiter.limit("10 per minute")
 def shorten_url(request_dto: ShortenApiRequestDTO) -> TypedResponse[ShortenApiResponseDTO]:
     """
     Presentational layer for the URL shortening API.
@@ -33,6 +35,7 @@ def shorten_url(request_dto: ShortenApiRequestDTO) -> TypedResponse[ShortenApiRe
     return jsonify(response_dto.to_dict())
 
 @swag_from('../../docs/redirect_api.yml')
+@limiter.limit("1 per seconds")
 def redirect_url(short_url: str) -> Response:
     """
     Presentational layer for the URL redirecting API.
