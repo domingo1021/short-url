@@ -1,12 +1,14 @@
-from flask import request, jsonify
+"""
+Validator module for Flask applications.
+"""
 from functools import wraps
+from flask import request, jsonify
 from pydantic import ValidationError
-import inspect
 
 
 def validate_request(dto_class):
     """
-    Decorator that validates the incoming JSON request body against a specified Pydantic data transfer object (DTO) class.
+    Decorator that validates the incoming JSON request body against a specified Pydantic DTO class.
 
     Args:
         dto_class (Type): A Pydantic model class used to validate the incoming request data.
@@ -19,7 +21,7 @@ def validate_request(dto_class):
         def my_route_handler(dto):
             # Your endpoint logic here, using the validated `dto`
     """
-    
+
     def decorator(f):
         """
         Inner decorator function that wraps the original endpoint function.
@@ -30,9 +32,9 @@ def validate_request(dto_class):
         Returns:
             Function: A wrapped version of the original function with request validation.
         """
-        
+
         @wraps(f)
-        async def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs):
             """
             Wrapper function that attempts to validate the request data using the DTO class.
 
@@ -48,18 +50,12 @@ def validate_request(dto_class):
             """
             try:
                 dto = dto_class(**request.json)
-                
-                if inspect.iscoroutinefunction(f):
-                    return await f(dto, *args, **kwargs)
-                
+
                 return f(dto, *args, **kwargs)
-            
+
             except ValidationError as e:
                 return jsonify({"error": e.errors()}), 400
-            
-            except Exception as e:
-                return jsonify({"error": str(e)}), 500
-            
+
         return wrapper
-    
+
     return decorator
