@@ -2,12 +2,17 @@
 Short URL Generator
 """
 import hashlib
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+
+BASE_URL = os.getenv('BASE_URL')
 
 class ShortUrlGenerator:
     """Short URL Generator class."""
 
-    REDIRECT_BASE_URL = 'http://localhost:5000/redirect/'
+    REDIRECT_BASE_URL = BASE_URL + 'redirect/'
     SHORT_URL_LENGTH = 6
 
     @staticmethod
