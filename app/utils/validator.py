@@ -5,6 +5,7 @@ from functools import wraps
 from flask import request, jsonify
 from pydantic import ValidationError
 
+from app.dto.response.error_response_dto import ErrorResponseDTO
 
 def validate_request(dto_class):
     """
@@ -54,7 +55,10 @@ def validate_request(dto_class):
                 return f(dto, *args, **kwargs)
 
             except ValidationError as e:
-                return jsonify({"error": e.errors()}), 400
+                errors = e.errors()
+                error_messages = [error['msg'] for error in errors]
+                res = ErrorResponseDTO(reason=error_messages[0])
+                return jsonify(res.to_dict()), 400
 
         return wrapper
 
