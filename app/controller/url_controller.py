@@ -32,6 +32,7 @@ def shorten_url(request_dto: ShortenApiRequestDTO) -> TypedResponse[ShortenApiRe
 
     return jsonify(response_dto.to_dict())
 
+@swag_from('../../docs/redirect_api.yml')
 def redirect_url(short_url: str) -> Response:
     """
     Presentational layer for the URL redirecting API.

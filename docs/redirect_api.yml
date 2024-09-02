@@ -1,0 +1,64 @@
+get:
+  description: Create a new short URL
+  parameters:
+    - name: short_url
+      in: path
+      type: string
+      required: true
+responses:
+  "302":
+    description: Redirect to the original URL
+  "400":
+    description: Bad request - Invalid or missing parameters
+    schema:
+      $ref: "#/definitions/UrlTooLongResponseDTO"
+  "404":
+    description: Original URL not found for the given short URL
+    schema:
+      $ref: "#/definitions/ResourceNotFoundResponseDTO"
+  "429":
+    description: Too many requests
+    schema:
+      $ref: "#/definitions/TooManyRequestsResponseDTO"
+  "500":
+    description: Internal server error
+    schema:
+      $ref: "#/definitions/InternalServerErrorResponseDTO"
+
+definitions:
+  UrlTooLongResponseDTO:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: false
+      reason:
+        type: string
+        example: "Url too long, max length is 2048"
+  ResourceNotFoundResponseDTO:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: false
+      reason:
+        type: string
+        example: "Original URL not found for the given short URL"
+  TooManyRequestsResponseDTO:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: false
+      reason:
+        type: string
+        example: "Too many requests, try again later"
+  InternalServerErrorResponseDTO:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: false
+      reason:
+        type: string
+        example: "Internal server error"
