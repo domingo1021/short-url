@@ -23,6 +23,6 @@ def shorten_url(request_dto: ShortenApiRequestDTO) -> TypedResponse[ShortenApiRe
     original_url = request_dto.original_url
 
     url = ShortenUrlService.generate_short_url(original_url)
-    response_dto = ShortenApiResponseDTO(short_url=url.short_url)
+    response_dto = ShortenApiResponseDTO(short_url=url.short_url, expiration_date=url.expiration_date)
 
     return jsonify(response_dto.to_dict())

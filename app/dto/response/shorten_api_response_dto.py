@@ -13,8 +13,11 @@ class ShortenApiResponseDTO(BaseResponseDTO):
         self.expiration_date = expiration_date
 
     def to_dict(self):
+        """
+        Convert the DTO to a dictionary.
+        """
         return {
             'short_url': self.short_url,
             'expiration_date': self.expiration_date,
-            'success': super().success
+            'success': self.success
         }
