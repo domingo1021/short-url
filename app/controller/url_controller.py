@@ -11,7 +11,7 @@ from app.dto.request.shorten_api_request_dto import ShortenApiRequestDTO
 from app.dto.request.redirect_api_request_dto import RedirectApiRequestDTO
 from app.dto.response.shorten_api_response_dto import ShortenApiResponseDTO
 from app.dto.response.error_response_dto import ErrorResponseDTO
-from app.utils.validator import validate_request_body
+from app.utils.validator import validate_request_body, handle_validation_error
 from app.services.shorten_url_service import ShortenUrlService
 from app.type.typed_response import TypedResponse
 from app.type.http import HttpStatusCode
@@ -49,8 +49,7 @@ def redirect_url(short_url_code: str) -> Response:
     try:
         RedirectApiRequestDTO(short_url_code=short_url_code)
     except ValidationError as e:
-        error = ErrorResponseDTO(e.json())
-        return jsonify(error.to_dict()), HttpStatusCode.BAD_REQUEST.value
+        return handle_validation_error(e)
 
     complete_short_url = os.getenv('BASE_URL') + 'redirect/' + short_url_code
     print(f"Redirecting to short URL {complete_short_url}")

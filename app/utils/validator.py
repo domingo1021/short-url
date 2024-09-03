@@ -2,10 +2,11 @@
 Validator module for Flask applications.
 """
 from functools import wraps
-from flask import request, jsonify
+from flask import request, jsonify, Response
 from pydantic import ValidationError
 
 from app.dto.response.error_response_dto import ErrorResponseDTO
+from app.type.http import HttpStatusCode
 
 def validate_request_body(dto_class):
     """
@@ -55,11 +56,17 @@ def validate_request_body(dto_class):
                 return f(dto, *args, **kwargs)
 
             except ValidationError as e:
-                errors = e.errors()
-                error_messages = [error['msg'] for error in errors]
-                res = ErrorResponseDTO(reason=error_messages[0])
-                return jsonify(res.to_dict()), 400
+                return handle_validation_error(e)
 
         return wrapper
 
     return decorator
+
+def handle_validation_error(error: ValidationError) -> Response:
+    """
+    Map validation into customized error response.
+    """
+    errors = error.errors()
+    error_messages = [error['msg'] for error in errors]
+    res = ErrorResponseDTO(reason=error_messages[0])
+    return jsonify(res.to_dict()), HttpStatusCode
