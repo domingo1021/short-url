@@ -69,4 +69,4 @@ def handle_validation_error(error: ValidationError) -> Response:
     errors = error.errors()
     error_messages = [error['msg'] for error in errors]
     res = ErrorResponseDTO(reason=error_messages[0])
-    return jsonify(res.to_dict()), HttpStatusCode
+    return jsonify(res.to_dict()), HttpStatusCode.BAD_REQUEST.value
