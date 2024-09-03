@@ -2,7 +2,7 @@ version: '3.8'
 services:
   app:
     build: .
-    image: url-app
+    image: domingo1021/url-app
     container_name: url-app
     environment:
       - NODE_ENV=docker
