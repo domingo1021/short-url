@@ -31,13 +31,13 @@ definitions:
       original_url:
         type: string
         maxLength: 2048
-        example: "https://example.com"
+        example: "https://www.google.com"
   ShortenApiResponseDTO:
     type: object
     properties:
       short_url:
         type: string
-        example: "http://localhost:5000/abc123"
+        example: "http://localhost:3000/abc123"
       expiration_date:
         type: string
         format: date-time
