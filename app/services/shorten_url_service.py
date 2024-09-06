@@ -15,7 +15,7 @@ class ShortenUrlService:
         :return: The short URL object
         """
         url = UrlMapping(original_url=original_url)
-        UrlShortenerOrchestrator.get_or_create_short_url(url)
+        url.short_url = UrlShortenerOrchestrator.get_or_create_short_url(url)
 
         return url
 

@@ -39,7 +39,6 @@ class UrlShortenerOrchestrator:
         if short_url:
             short_url = ShortUrlGenerator.REDIRECT_BASE_URL + short_url.decode()
             UrlCache.cache_urls(short_url, url_mapping.original_url, ttl)
-            url_mapping.short_url = short_url
             print(f"Short URL {short_url} already exists in cache.")
             return short_url
 
@@ -65,5 +64,4 @@ class UrlShortenerOrchestrator:
                 pipe.reset()
                 continue
 
-        url_mapping.short_url = short_url
         return short_url
